@@ -14,17 +14,17 @@ diretorRoutes.get("/diretor/:id", async (req, res)=> {
   const diretor = await Diretor.findOne({ where: {id: id}, include: [Filme] });
   return res.json(diretor)
 })
+
 diretorRoutes.post("/diretor", async (request, response) => {
-  const {nome, nascimento, nacionalidade, filme} = request.body
+  const {nome, nascimento, nacionalidade} = request.body
   
-  if(!nome || !nascimento || !nacionalidade || !filme){
+  if(!nome || !nascimento || !nacionalidade){
       return response.status(500).json({ status: "error", message: "campos não preenchidos"})
   }
 
   try{
       await Diretor.create(
-          { nome, nascimento, nacionalidade, filme},
-          { include: [Filme] }
+          { nome, nascimento, nacionalidade}
       );
       return response.status(201).json({ message: "Diretor inserido com sucesso" })
   }catch(err){
@@ -41,7 +41,6 @@ diretorRoutes.put("/diretor/:id", async (req, res) => {
     const diretor = await Diretor.findOne({ where: { id: id } });
       
     if (diretor) {
-      await Filme.update(diretor, { where: { filmeId: id } });
       await diretor.update({ nome, nascimento, nacionalidade });
       res.json({ message: "Diretor atualizado." });
     } else {
@@ -70,3 +69,4 @@ diretorRoutes.delete("/diretor/:id", async (request, response) => {
   }
 
 })
+

@@ -7,7 +7,7 @@ export const Ator = connection.define("ator", {
         allowNull: false
     },
     nascimento: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         allowNull: false
     },
     nacionalidade: {
